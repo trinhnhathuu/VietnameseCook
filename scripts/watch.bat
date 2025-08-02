@@ -1,0 +1,3 @@
+@echo off
+echo Starting code generation watcher...
+dart run build_runner watch --delete-conflicting-outputs 
