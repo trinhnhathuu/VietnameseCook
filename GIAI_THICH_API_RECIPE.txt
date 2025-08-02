@@ -1,0 +1,506 @@
+=== GIẢI THÍCH LUỒNG HOẠT ĐỘNG API RECIPE ===
+
+📋 TỔNG QUAN KIẾN TRÚC
+======================
+Ứng dụng sử dụng Clean Architecture với các tầng:
+1. Tầng Giao diện (UI + Quản lý trạng thái)
+2. Tầng Domain (Use Cases + Entities + Repository Interface)
+3. Tầng Dữ liệu (Repository Implementation + Data Sources)
+
+🔄 LUỒNG HOẠT ĐỘNG API CHI TIẾT
+===============================
+
+BƯỚC 1: KHỞI TẠO (Dependency Injection với Riverpod)
+   ├── DioClient được tạo để xử lý HTTP requests
+   ├── RecipeRemoteDataSource được inject với DioClient
+   ├── RecipeRepository được inject với DataSource
+   └── GetRecipes UseCase được inject với Repository
+
+BƯỚC 2: GỌI API TỪ UI
+   ├── Widget gọi Provider (recipeNotifierProvider)
+   ├── Provider kích hoạt UseCase (GetRecipes)
+   ├── UseCase gọi Repository method
+   ├── Repository gọi DataSource method
+   ├── DataSource thực hiện HTTP request
+   └── Kết quả trả về qua các tầng
+
+📋 THỨ TỰ TẠO FILE KHUYẾN NGHỊ
+==============================
+
+Khi xây dựng tính năng Recipe API, nên tạo file theo thứ tự sau:
+
+BƯỚC 1: TẠO ENTITIES VÀ MODELS
+   ├── lib/domain/entities/recipe.dart (Entity)
+   ├── lib/data/models/recipe_model.dart (Model)
+   └── lib/core/error/failures.dart (Error handling)
+
+BƯỚC 2: TẠO REPOSITORY INTERFACE
+   └── lib/domain/repositories/recipe_repository.dart
+
+BƯỚC 3: TẠO USE CASES
+   └── lib/domain/usecases/get_recipes.dart
+
+BƯỚC 4: TẠO DATA SOURCE
+   ├── lib/data/datasources/recipe_remote_datasource.dart
+   └── lib/core/network/dio_client.dart (nếu chưa có)
+
+BƯỚC 5: TẠO REPOSITORY IMPLEMENTATION
+   └── lib/data/repositories/recipe_repository_impl.dart
+
+BƯỚC 6: TẠO STATE MANAGEMENT
+   ├── lib/provider/recipe/recipe_notifier.dart
+   └── lib/provider/recipe/recipe_providers.dart
+
+BƯỚC 7: TẠO UI
+   └── lib/presentation/screens/recipe_list_screen.dart
+
+📊 CÁC THÀNH PHẦN CHÍNH (CHI TIẾT CODE)
+=======================================
+
+BƯỚC 1: USE CASE (GetRecipes)
+   - File: lib/domain/usecases/get_recipes.dart
+   - Chức năng: Xử lý business logic
+   - Input: GetRecipesParams (page, limit, category, search)
+   - Output: Either<Failure, List<Recipe>>
+   
+   VÍ DỤ CODE:
+   ```dart
+   class GetRecipes implements UseCase<List<Recipe>, GetRecipesParams> {
+     final RecipeRepository repository;
+   
+     GetRecipes(this.repository);
+   
+     @override
+     Future<Either<Failure, List<Recipe>>> call(GetRecipesParams params) async {
+       return await repository.getRecipes(
+         page: params.page,
+         limit: params.limit,
+         category: params.category,
+         search: params.search,
+       );
+     }
+   }
+   
+   class GetRecipesParams extends Equatable {
+     final int page;
+     final int limit;
+     final String? category;
+     final String? search;
+   
+     const GetRecipesParams({
+       this.page = 1,
+       this.limit = 10,
+       this.category,
+       this.search,
+     });
+   
+     @override
+     List<Object?> get props => [page, limit, category, search];
+   }
+   ```
+
+BƯỚC 2: REPOSITORY INTERFACE
+   - File: lib/domain/repositories/recipe_repository.dart
+   - Định nghĩa các method cần thiết:
+     * getRecipes() - Lấy danh sách công thức
+     * getRecipeById() - Lấy công thức theo ID
+     * getFeaturedRecipes() - Lấy công thức nổi bật
+     * getCategories() - Lấy danh mục
+   
+   VÍ DỤ CODE:
+   ```dart
+   abstract class RecipeRepository {
+     Future<Either<Failure, List<Recipe>>> getRecipes({
+       int page = 1,
+       int limit = 10,
+       String? category,
+       String? search,
+     });
+   
+     Future<Either<Failure, Recipe>> getRecipeById(String id);
+   
+     Future<Either<Failure, List<Recipe>>> getFeaturedRecipes();
+   
+     Future<Either<Failure, List<String>>> getCategories();
+   
+     Future<Either<Failure, List<Recipe>>> searchRecipes(String query);
+   
+     Future<Either<Failure, List<Recipe>>> getRecipesByCategory(String category);
+   }
+   ```
+
+BƯỚC 3: DATA SOURCE
+   - File: lib/data/datasources/recipe_remote_datasource.dart
+   - Thực hiện HTTP calls thực tế
+   - Xử lý response và convert thành Model
+   - Có fallback data khi API lỗi
+   
+   VÍ DỤ CODE:
+   ```dart
+   abstract class RecipeRemoteDataSource {
+     Future<List<RecipeModel>> getRecipes({
+       int page = 1,
+       int limit = 10,
+       String? category,
+       String? search,
+     });
+   }
+   
+   class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
+     final Dio dioClient;
+   
+     RecipeRemoteDataSourceImpl({required this.dioClient});
+   
+     @override
+     Future<List<RecipeModel>> getRecipes({
+       int page = 1,
+       int limit = 10,
+       String? category,
+       String? search,
+     }) async {
+       try {
+         final queryParameters = <String, dynamic>{
+           'page': page,
+           'limit': limit,
+         };
+   
+         if (category != null && category.isNotEmpty) {
+           queryParameters['category'] = category;
+         }
+   
+         if (search != null && search.isNotEmpty) {
+           queryParameters['search'] = search;
+         }
+   
+         final response = await dioClient.get(
+           '/recipes',
+           queryParameters: queryParameters,
+         );
+   
+         if (response.statusCode == 200) {
+           final List<dynamic> data = response.data['data'] ?? [];
+           return data.map((json) => RecipeModel.fromJson(json)).toList();
+         } else {
+           throw Exception('Failed to load recipes');
+         }
+       } catch (e) {
+         // Fallback to mock data
+         return _getMockRecipes();
+       }
+     }
+   }
+   ```
+
+BƯỚC 4: PROVIDERS (Riverpod)
+   - File: lib/provider/recipe/recipe_providers.dart
+   - Quản lý dependency injection
+   - Cung cấp các instance cho UI
+   
+   VÍ DỤ CODE:
+   ```dart
+   // Data Source Provider
+   final recipeRemoteDataSourceProvider = Provider<RecipeRemoteDataSource>((ref) {
+     final dioClient = ref.watch(dioProvider);
+     return RecipeRemoteDataSourceImpl(dioClient: dioClient.dio);
+   });
+   
+   // Repository Provider
+   final recipeRepositoryProvider = Provider<RecipeRepository>((ref) {
+     final remoteDataSource = ref.watch(recipeRemoteDataSourceProvider);
+     final networkInfo = ref.watch(networkInfoProvider);
+      
+     return RecipeRepositoryImpl(
+       remoteDataSource: remoteDataSource,
+       networkInfo: networkInfo,
+     );
+   });
+   
+   // Use Cases Providers
+   final getRecipesUseCaseProvider = Provider<GetRecipes>((ref) {
+     final repository = ref.watch(recipeRepositoryProvider);
+     return GetRecipes(repository);
+   });
+   
+   // State Notifier Provider
+   final recipeNotifierProvider = StateNotifierProvider<RecipeNotifier, RecipeState>((ref) {
+     final getRecipesUseCase = ref.watch(getRecipesUseCaseProvider);
+     return RecipeNotifier(getRecipesUseCase);
+   });
+   
+   // Featured Recipes Provider
+   final featuredRecipesProvider = FutureProvider((ref) async {
+     final repository = ref.watch(recipeRepositoryProvider);
+     final result = await repository.getFeaturedRecipes();
+     
+     return result.fold(
+       (failure) => throw Exception(failure.message),
+       (recipes) => recipes,
+     );
+   });
+   ```
+
+🚀 VÍ DỤ LUỒNG GỌI API RECIPE (7 BƯỚC)
+=====================================
+
+Khi người dùng muốn lấy danh sách công thức:
+
+BƯỚC 1: UI Widget gọi Provider
+   ```dart
+   class RecipeListScreen extends ConsumerWidget {
+     @override
+     Widget build(BuildContext context, WidgetRef ref) {
+       final recipeState = ref.watch(recipeNotifierProvider);
+       final recipeNotifier = ref.read(recipeNotifierProvider.notifier);
+   
+       return Scaffold(
+         body: recipeState.when(
+           loading: () => CircularProgressIndicator(),
+           error: (error, stack) => Text('Lỗi: $error'),
+           data: (recipes) => ListView.builder(
+             itemCount: recipes.length,
+             itemBuilder: (context, index) {
+               final recipe = recipes[index];
+               return ListTile(
+                 title: Text(recipe.title),
+                 subtitle: Text(recipe.description),
+                 onTap: () {
+                   // Load more recipes when scrolled
+                   recipeNotifier.loadRecipes(
+                     GetRecipesParams(
+                       page: 2,
+                       limit: 10,
+                       category: 'Món chính',
+                     ),
+                   );
+                 },
+               );
+             },
+           ),
+         ),
+       );
+     }
+   }
+   ```
+
+BƯỚC 2: RecipeNotifier sử dụng GetRecipes UseCase:
+   ```dart
+   final result = await _getRecipesUseCase(GetRecipesParams(
+     page: 1,
+     limit: 10,
+     category: 'Món chính',
+     search: 'phở'
+   ));
+   ```
+
+BƯỚC 3: GetRecipes UseCase gọi Repository:
+   ```dart
+   return await repository.getRecipes(
+     page: params.page,
+     limit: params.limit,
+     category: params.category,
+     search: params.search,
+   );
+   ```
+
+BƯỚC 4: Repository Implementation gọi DataSource:
+   ```dart
+   final recipes = await remoteDataSource.getRecipes(
+     page: page,
+     limit: limit,
+     category: category,
+     search: search,
+   );
+   ```
+
+BƯỚC 5: DataSource thực hiện HTTP request:
+   ```dart
+   final response = await dioClient.get(
+     '/recipes',
+     queryParameters: {
+       'page': page,
+       'limit': limit,
+       'category': category,
+       'search': search,
+     },
+   );
+   ```
+
+BƯỚC 6: Xử lý response:
+   ```dart
+   if (response.statusCode == 200) {
+     final List<dynamic> data = response.data['data'] ?? [];
+     return data.map((json) => RecipeModel.fromJson(json)).toList();
+   }
+   ```
+
+BƯỚC 7: Trả kết quả về UI qua các tầng:
+   DataSource → Repository → UseCase → Provider → UI
+
+🏗️ REPOSITORY IMPLEMENTATION
+=============================
+
+VÍ DỤ CODE REPOSITORY IMPLEMENTATION:
+```dart
+class RecipeRepositoryImpl implements RecipeRepository {
+  final RecipeRemoteDataSource remoteDataSource;
+  final NetworkInfo networkInfo;
+
+  RecipeRepositoryImpl({
+    required this.remoteDataSource,
+    required this.networkInfo,
+  });
+
+  @override
+  Future<Either<Failure, List<Recipe>>> getRecipes({
+    int page = 1,
+    int limit = 10,
+    String? category,
+    String? search,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteRecipes = await remoteDataSource.getRecipes(
+          page: page,
+          limit: limit,
+          category: category,
+          search: search,
+        );
+        
+        // Convert models to entities
+        final recipes = remoteRecipes.map((model) => model.toEntity()).toList();
+        return Right(recipes);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Recipe>> getRecipeById(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteRecipe = await remoteDataSource.getRecipeById(id);
+        return Right(remoteRecipe.toEntity());
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
+}
+```
+
+🎯 STATE NOTIFIER EXAMPLE
+=========================
+
+VÍ DỤ CODE STATE NOTIFIER:
+```dart
+class RecipeNotifier extends StateNotifier<AsyncValue<List<Recipe>>> {
+  final GetRecipes _getRecipesUseCase;
+
+  RecipeNotifier(this._getRecipesUseCase) : super(const AsyncValue.loading());
+
+  Future<void> loadRecipes(GetRecipesParams params) async {
+    state = const AsyncValue.loading();
+    
+    final result = await _getRecipesUseCase(params);
+    
+    result.fold(
+      (failure) => state = AsyncValue.error(
+        _mapFailureToMessage(failure),
+        StackTrace.current,
+      ),
+      (recipes) => state = AsyncValue.data(recipes),
+    );
+  }
+
+  Future<void> searchRecipes(String query) async {
+    await loadRecipes(GetRecipesParams(
+      search: query,
+      page: 1,
+      limit: 20,
+    ));
+  }
+
+  Future<void> loadRecipesByCategory(String category) async {
+    await loadRecipes(GetRecipesParams(
+      category: category,
+      page: 1,
+      limit: 10,
+    ));
+  }
+
+  String _mapFailureToMessage(Failure failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return 'Lỗi server. Vui lòng thử lại sau.';
+      case NetworkFailure:
+        return 'Không có kết nối mạng. Kiểm tra kết nối của bạn.';
+      default:
+        return 'Đã xảy ra lỗi không xác định.';
+    }
+  }
+}
+```
+
+📡 CÁC ENDPOINT API
+===================
+
+1. GET /recipes
+   - Lấy danh sách công thức
+   - Query params: page, limit, category, search
+
+2. GET /recipes/{id}
+   - Lấy chi tiết công thức theo ID
+
+3. GET /recipes/featured
+   - Lấy công thức nổi bật
+
+4. GET /recipes/categories
+   - Lấy danh sách danh mục
+
+🛠️ XỬ LÝ LỖI
+==============
+
+1. Network Error:
+   - DataSource catch exception
+   - Trả về mock data hoặc throw exception
+
+2. API Error:
+   - Repository convert exception thành Failure
+   - UseCase trả về Either<Failure, Data>
+
+3. UI Error Handling:
+   - Provider xử lý Failure
+   - Hiển thị error message cho user
+
+💡 LƯU Ý QUAN TRỌNG
+===================
+
+1. Sử dụng Either<Failure, Success> để xử lý lỗi
+2. Mock data được sử dụng khi API không khả dụng
+3. Riverpod quản lý dependency injection tự động
+4. Clean Architecture đảm bảo tách biệt các tầng
+5. Dartz package hỗ trợ functional programming
+
+🔍 DEBUG VÀ TESTING
+===================
+
+Để debug luồng API:
+1. Đặt breakpoint ở UseCase
+2. Kiểm tra params truyền vào
+3. Theo dõi response từ DataSource
+4. Xem log HTTP request trong Dio
+5. Kiểm tra state trong Provider
+
+Ví dụ log:
+```
+[API] Calling getRecipes with params: {page: 1, limit: 10}
+[HTTP] GET /recipes?page=1&limit=10
+[Response] 200 OK - 3 recipes returned
+[UseCase] Success: List<Recipe> with 3 items
+[UI] State updated with new recipes
+```
