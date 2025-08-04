@@ -8,12 +8,14 @@ import '../../data/repositories/recipe_repository_impl.dart';
 import 'recipe_notifier.dart';
 
 // Data Source Provider
+// gọi api 
 final recipeRemoteDataSourceProvider = Provider<RecipeRemoteDataSource>((ref) {
   final dioClient = ref.watch(dioProvider);
   return RecipeRemoteDataSourceImpl(dioClient: dioClient.dio);
 });
 
 // Repository Provider
+// xử lý logic sau gọi api 
 final recipeRepositoryProvider = Provider<RecipeRepository>((ref) {
   final remoteDataSource = ref.watch(recipeRemoteDataSourceProvider);
   final networkInfo = ref.watch(networkInfoProvider);
@@ -25,12 +27,14 @@ final recipeRepositoryProvider = Provider<RecipeRepository>((ref) {
 });
 
 // Use Cases Providers
+// khi người dùng gọi sẽ gọi hàm này hàm này sẽ gọi recipeRepositoryProvider sau đó trả về dữ liệu
 final getRecipesUseCaseProvider = Provider<GetRecipes>((ref) {
   final repository = ref.watch(recipeRepositoryProvider);
   return GetRecipes(repository);
 });
 
 // State Notifier Provider
+// nhận dữ liệu từ getRecipesUseCaseProvider và cập nhật state
 final recipeNotifierProvider = StateNotifierProvider<RecipeNotifier, RecipeState>((ref) {
   final getRecipesUseCase = ref.watch(getRecipesUseCaseProvider);
   return RecipeNotifier(getRecipesUseCase);

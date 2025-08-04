@@ -1,66 +1,31 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_sizes.dart';
-import '../../../../widgets/common/app_header.dart';
-import '../../../../core/router/app_routes.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppHeader(
-        onLogoTap: () {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRoutes.home,
-            (route) => false,
-          );
-        },
-        onRecipesTap: () {
-          Navigator.pushNamed(context, AppRoutes.recipes);
-        },
-        onMealPlanTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Kế hoạch bữa ăn đang được phát triển')),
-          );
-        },
-        onCommunityTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Cộng đồng đang được phát triển')),
-          );
-        },
-        onViewTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Chức năng xem đang được phát triển')),
-          );
-        },
-        onRegisterTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Đăng ký đang được phát triển')),
-          );
-        },
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSizes.md),
-        child: Column(
-          children: [
-            Text(
-              'Các món ăn yêu thích của bạn',
-              style: Theme.of(context).textTheme.headlineSmall,
+    // ← Không cần Scaffold và AppHeader nữa, chỉ cần content
+    return Padding(
+      padding: const EdgeInsets.all(AppSizes.md),
+      child: Column(
+        children: [
+          Text(
+            'Các món ăn yêu thích của bạn',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: AppSizes.lg),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 5, // Mock data
+              itemBuilder: (context, index) {
+                return _buildFavoriteCard(context, index);
+              },
             ),
-            const SizedBox(height: AppSizes.lg),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5, // Mock data
-                itemBuilder: (context, index) {
-                  return _buildFavoriteCard(context, index);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

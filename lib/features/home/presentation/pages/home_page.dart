@@ -1,107 +1,90 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_strings.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../widgets/common/app_header.dart';
-import '../../../../core/router/app_routes.dart';
+import 'package:vietnamesecooking/core/constants/app_colors.dart';
+import 'package:vietnamesecooking/features/home/presentation/pages/content_home_page.dart';
 
-class HomePage extends StatelessWidget {
+import '../../../../core/constants/app_sizes.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../widgets/common/app_header.dart';
+import '../../../favorites/presentation/pages/favorites_page.dart';
+import '../../../profile/presentation/pages/profile_page.dart';
+import '../../../recipes/presentation/pages/recipes_page.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
+
+  // Danh sách các page con
+  final List<Widget> _pages = [
+    const HomeContentPage(),
+    const RecipesPage(),
+    const FavoritesPage(),
+    const ProfilePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppHeader(
         onLogoTap: () {
-          // Navigate to home
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRoutes.home,
-            (route) => false,
-          );
+          setState(() {
+            currentIndex = 0; // Về trang chủ
+          });
         },
         onRecipesTap: () {
-          Navigator.pushNamed(context, AppRoutes.recipes);
+          setState(() {
+            currentIndex = 1; // Chuyển sang trang công thức
+          });
         },
         onMealPlanTap: () {
           // TODO: Navigate to meal plan
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Kế hoạch bữa ăn đang được phát triển')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Kế hoạch bữa ăn đang được phát triển')));
         },
         onCommunityTap: () {
           // TODO: Navigate to community
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Cộng đồng đang được phát triển')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Cộng đồng đang được phát triển')));
         },
         onViewTap: () {
           // TODO: Implement view action
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Chức năng xem đang được phát triển')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Chức năng xem đang được phát triển')));
         },
         onRegisterTap: () {
           // TODO: Navigate to register
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Đăng ký đang được phát triển')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Đăng ký đang được phát triển')));
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSizes.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Chào mừng đến với ${AppStrings.appName}!',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: AppSizes.md),
-            Text(
-              'Khám phá những món ăn Việt Nam ngon nhất',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: AppSizes.lg),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: AppSizes.md,
-                mainAxisSpacing: AppSizes.md,
-                children: [
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.restaurant_menu,
-                    title: 'Công thức mới',
-                    subtitle: 'Khám phá món mới',
-                  ),
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.favorite,
-                    title: 'Yêu thích',
-                    subtitle: 'Món ăn ưa thích',
-                  ),
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.trending_up,
-                    title: 'Thịnh hành',
-                    subtitle: 'Món ăn hot nhất',
-                  ),
-                  _buildFeatureCard(
-                    context,
-                    icon: Icons.category,
-                    title: 'Danh mục',
-                    subtitle: 'Phân loại món ăn',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: IndexedStack(
+        index: currentIndex,
+        children: _pages, // ← Chỉ phần body thay đổi, header giữ nguyên
       ),
+      // ← Thêm FloatingActionButton cho RecipesPage
+      floatingActionButton:
+          currentIndex == 1
+              ? FloatingActionButton(
+                onPressed: () {
+                  // TODO: Add new recipe
+                },
+                child: const Icon(Icons.add),
+              )
+              : null,
     );
   }
+}
+
 
   Widget _buildFeatureCard(
     BuildContext context, {
@@ -120,17 +103,13 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                size: AppSizes.iconXl,
-                color: Theme.of(context).primaryColor,
-              ),
+              Icon(icon, size: AppSizes.iconXl, color: Theme.of(context).primaryColor),
               const SizedBox(height: AppSizes.sm),
               Text(
                 title,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSizes.xs),
@@ -145,4 +124,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-} 
+
