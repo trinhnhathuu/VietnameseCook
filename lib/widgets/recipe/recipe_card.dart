@@ -108,7 +108,7 @@ class RecipeCard extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSizes.md),
                         
-                        Icon(
+                        const Icon(
                           Icons.star,
                           size: 16,
                           color: Colors.amber,

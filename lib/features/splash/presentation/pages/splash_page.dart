@@ -59,7 +59,7 @@ class _SplashPageState extends State<SplashPage>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.restaurant_menu,
                 size: 80,
                 color: AppColors.onPrimary,

@@ -24,7 +24,7 @@ abstract class BaseRepository {
     } else if (exception is ValidationException) {
       return ValidationFailure(exception.message);
     } else {
-      return UnknownFailure('Đã có lỗi không xác định xảy ra');
+      return const UnknownFailure('Đã có lỗi không xác định xảy ra');
     }
   }
 }

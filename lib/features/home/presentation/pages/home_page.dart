@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vietnamesecooking/core/constants/app_colors.dart';
 import 'package:vietnamesecooking/features/home/presentation/pages/content_home_page.dart';
 
 import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/theme/app_text_styles.dart';
 import '../../../../widgets/common/app_header.dart';
 import '../../../favorites/presentation/pages/favorites_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';

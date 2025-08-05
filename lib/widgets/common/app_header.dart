@@ -11,14 +11,14 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback? onRegisterTap;
 
   const AppHeader({
-    Key? key,
+    super.key,
     this.onLogoTap,
     this.onRecipesTap,
     this.onMealPlanTap,
     this.onCommunityTap,
     this.onViewTap,
     this.onRegisterTap,
-  }) : super(key: key);
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(80);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../widgets/common/app_header.dart';
 import '../widgets/utils/header_utils.dart';
 import '../core/constants/app_colors.dart';
-import '../core/constants/app_strings.dart';
 
 class HeaderDemoPage extends StatelessWidget {
   const HeaderDemoPage({super.key});

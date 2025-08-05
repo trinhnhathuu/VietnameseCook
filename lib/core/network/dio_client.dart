@@ -65,32 +65,32 @@ class _ErrorInterceptor extends Interceptor {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        throw NetworkException(AppStrings.noInternetConnection);
+        throw const NetworkException(AppStrings.noInternetConnection);
       
       case DioExceptionType.badResponse:
         switch (err.response?.statusCode) {
           case 400:
-            throw ValidationException('Dữ liệu không hợp lệ');
+            throw const ValidationException('Dữ liệu không hợp lệ');
           case 401:
-            throw ServerException('Không có quyền truy cập');
+            throw const ServerException('Không có quyền truy cập');
           case 403:
-            throw ServerException('Bị cấm truy cập');
+            throw const ServerException('Bị cấm truy cập');
           case 404:
-            throw ServerException('Không tìm thấy dữ liệu');
+            throw const ServerException('Không tìm thấy dữ liệu');
           case 500:
-            throw ServerException(AppStrings.serverError);
+            throw const ServerException(AppStrings.serverError);
           default:
-            throw ServerException(AppStrings.unknownError);
+            throw const ServerException(AppStrings.unknownError);
         }
       
       case DioExceptionType.cancel:
-        throw ServerException('Yêu cầu đã bị hủy');
+        throw const ServerException('Yêu cầu đã bị hủy');
       
       case DioExceptionType.unknown:
-        throw NetworkException(AppStrings.noInternetConnection);
+        throw const NetworkException(AppStrings.noInternetConnection);
       
       default:
-        throw ServerException(AppStrings.unknownError);
+        throw const ServerException(AppStrings.unknownError);
     }
   }
 }

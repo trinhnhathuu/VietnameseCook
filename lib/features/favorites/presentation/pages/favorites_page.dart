@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_sizes.dart';
 
 class FavoritesPage extends StatelessWidget {
