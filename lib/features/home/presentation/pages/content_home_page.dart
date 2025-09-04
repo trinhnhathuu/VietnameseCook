@@ -11,13 +11,12 @@ class HomeContentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2),
-
       child: SingleChildScrollView(
         child: Column(
           spacing: 112,
           children: [
-            SizedBox(
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2),
               height: 900,
               child: Row(
                 spacing: 50,
@@ -140,7 +139,9 @@ class HomeContentPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2),
+
               height: 650,
               child: Row(
                 spacing: 24,
@@ -207,27 +208,35 @@ class HomeContentPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2),
+
               height: 650,
               child: Column(
+                spacing: 80,
                 children: [
-                  Row(
-                    spacing: 80,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Khám phá công thức nấu ăn thông minh với nguyên liệu có sẵn',
-                          style: AppTextStyles.h3,
+                  Container(
+                    child: Row(
+                      spacing: 80,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Khám phá công thức nấu ăn thông minh với nguyên liệu có sẵn',
+                            style: AppTextStyles.h3,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Bạn có thể nhập nguyên liệu mà mình có để tìm kiếm công thức phù hợp. Bộ lọc theo khu vực và chế độ ăn uống giúp bạn dễ dàng chọn lựa món ăn yêu thích. Hãy để AI gợi ý cho bạn những món ăn tuyệt vời nhất!',
-                          style: AppTextStyles.mediumNormal,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(
+                              'Bạn có thể nhập nguyên liệu mà mình có để tìm kiếm công thức phù hợp. Bộ lọc theo khu vực và chế độ ăn uống giúp bạn dễ dàng chọn lựa món ăn yêu thích. Hãy để AI gợi ý cho bạn những món ăn tuyệt vời nhất!',
+                              style: AppTextStyles.mediumNormal,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: Row(
@@ -268,9 +277,12 @@ class HomeContentPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2),
+
               height: 926,
               child: Column(
+                spacing: 32,
                 children: [
                   Row(
                     spacing: 80,
@@ -283,9 +295,12 @@ class HomeContentPage extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Text(
-                          'Trợ lý nhà bếp của chúng tôi giúp bạn quản lý thời gian và quy trình nấu ăn một cách hiệu quả. Với hệ thống hẹn giờ đa bước và hướng dẫn chi tiết, bạn sẽ không bao giờ bỏ lỡ một bước nào. Hãy để chúng tôi đồng hành cùng bạn trong mỗi bữa ăn, từ khâu chuẩn bị đến hoàn thiện món ăn.',
-                          style: AppTextStyles.mediumNormal,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            'Trợ lý nhà bếp của chúng tôi giúp bạn quản lý thời gian và quy trình nấu ăn một cách hiệu quả. Với hệ thống hẹn giờ đa bước và hướng dẫn chi tiết, bạn sẽ không bao giờ bỏ lỡ một bước nào. Hãy để chúng tôi đồng hành cùng bạn trong mỗi bữa ăn, từ khâu chuẩn bị đến hoàn thiện món ăn.',
+                            style: AppTextStyles.mediumNormal,
+                          ),
                         ),
                       ),
                     ],
@@ -306,6 +321,7 @@ class HomeContentPage extends StatelessWidget {
             ),
             _lapKeHoach(),
             _chiaSeCongThuc(),
+            _lienHeChungToi(),
           ],
         ),
       ),
@@ -322,7 +338,6 @@ Widget _card1({
   return Container(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 32,
       children: [
         Expanded(
           child: Container(
@@ -332,12 +347,20 @@ Widget _card1({
             ),
           ),
         ),
+        const SizedBox(height: 16),
         SizedBox(child: Text(title, style: AppTextStyles.h5)),
+        const SizedBox(height: 10),
+
         SizedBox(child: Text(description, style: AppTextStyles.regularNormal)),
-        TextButton(
-          style: TextButton.styleFrom(foregroundColor: AppColors.primary),
-          onPressed: () {},
-          child: Text(textAction, textAlign: TextAlign.left, style: AppTextStyles.regularNormal),
+        const SizedBox(height: 10),
+
+        InkWell(
+          child: Row(
+            children: [
+              Text(textAction, style: AppTextStyles.regularNormal, textAlign: TextAlign.left),
+              const Icon(Icons.arrow_forward_ios_outlined, size: 12, color: Colors.black),
+            ],
+          ),
         ),
       ],
     ),
@@ -346,122 +369,94 @@ Widget _card1({
 
 Widget _lapKeHoach() {
   return Container(
-    width: 1440,
-    padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 112),
+    padding: const EdgeInsets.symmetric(vertical: AppSizes.xl),
     clipBehavior: Clip.antiAlias,
     decoration: const BoxDecoration(color: Color(0xFFFFDFDA)),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1280),
-          child: SizedBox(
+    child: SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 64,
+        children: [
+          SizedBox(
+            width: 768,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 768),
+              child: Text(
+                'Lập kế hoạch bữa ăn hàng tuần dễ dàng và hiệu quả',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.h3,
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2),
             width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: 768,
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 768),
-                    child: Text(
-                      'Lập kế hoạch bữa ăn hàng tuần dễ dàng và hiệu quả',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.h3,
+                Expanded(
+                  child: _featureCard(
+                    icon: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ),
+                    title: 'Tạo danh sách mua sắm tự động từ các công thức đã chọn',
+                    description: 'Giúp bạn tổ chức bữa ăn hàng tuần mà không cần lo lắng.',
+                    buttonText: 'Tìm hiểu',
                   ),
                 ),
-                const SizedBox(height: 80),
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: _featureCard(
-                                icon: Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                title: 'Tạo danh sách mua sắm tự động từ các công thức đã chọn',
-                                description:
-                                    'Giúp bạn tổ chức bữa ăn hàng tuần mà không cần lo lắng.',
-                                buttonText: 'Tìm hiểu',
-                              ),
-                            ),
-                            const SizedBox(width: 48),
-                            Expanded(
-                              child: _featureCard(
-                                icon: Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Icon(Icons.recycling, color: Colors.white, size: 24),
-                                ),
-                                title: 'Quản lý thức ăn thừa thông minh và tiết kiệm',
-                                description:
-                                    'Đưa ra giải pháp sáng tạo để sử dụng thức ăn thừa hiệu quả.',
-                                buttonText: 'Khám phá',
-                              ),
-                            ),
-                            const SizedBox(width: 48),
-                            Expanded(
-                              child: _featureCard(
-                                icon: Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: const Icon(
-                                    Icons.account_balance_wallet_outlined,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                                title: 'Tối ưu hóa ngân sách cho bữa ăn hàng tuần của bạn',
-                                description:
-                                    'Theo dõi chi phí và điều chỉnh ngân sách dễ dàng với chúng tôi.',
-                                buttonText: 'Bắt đầu',
-                              ),
-                            ),
-                          ],
-                        ),
+                Expanded(
+                  child: _featureCard(
+                    icon: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    ],
+                      child: const Icon(Icons.recycling, color: Colors.white, size: 24),
+                    ),
+                    title: 'Quản lý thức ăn thừa thông minh và tiết kiệm',
+                    description: 'Đưa ra giải pháp sáng tạo để sử dụng thức ăn thừa hiệu quả.',
+                    buttonText: 'Khám phá',
+                  ),
+                ),
+                Expanded(
+                  child: _featureCard(
+                    icon: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    title: 'Tối ưu hóa ngân sách cho bữa ăn hàng tuần của bạn',
+                    description: 'Theo dõi chi phí và điều chỉnh ngân sách dễ dàng với chúng tôi.',
+                    buttonText: 'Bắt đầu',
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
@@ -473,75 +468,30 @@ Widget _featureCard({
   required String buttonText,
 }) {
   return Column(
+    spacing: 24,
     mainAxisSize: MainAxisSize.min,
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
+      icon,
+
+      SizedBox(child: Text(title, textAlign: TextAlign.center, style: AppTextStyles.h5)),
       SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            icon,
-            const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 394.67,
-                    child: Text(title, textAlign: TextAlign.center, style: AppTextStyles.h5),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: 394.67,
-                    child: Text(
-                      description,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.regularNormal,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        child: Text(description, textAlign: TextAlign.center, style: AppTextStyles.regularNormal),
       ),
-      const SizedBox(height: 32),
-      SizedBox(
-        width: double.infinity,
-        child: Column(
+      Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        ),
+        child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(buttonText, style: AppTextStyles.regularMedium),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: 24,
-                    height: 24,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(),
-                    child: const Stack(), // Placeholder for arrow icon
-                  ),
-                ],
-              ),
-            ),
+            Text(buttonText, style: AppTextStyles.regularMedium),
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_forward_ios_outlined, size: 12, color: Colors.black),
           ],
         ),
       ),
@@ -551,76 +501,128 @@ Widget _featureCard({
 
 Widget _chiaSeCongThuc() {
   return Container(
-    clipBehavior: Clip.antiAlias,
-    decoration: const BoxDecoration(color: Colors.white),
+    padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2, vertical: AppSizes.xl * 2),
+
     child: Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 32,
       children: [
+        Text('Cộng đồng', textAlign: TextAlign.center, style: AppTextStyles.regularSemiBold),
+        const SizedBox(height: 16),
         Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Cộng đồng', textAlign: TextAlign.center, style: AppTextStyles.regularSemiBold),
-            const SizedBox(height: 16),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 768,
-                  child: Text(
-                    'Chia sẻ công thức nấu ăn độc đáo',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.h2,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: 768,
-                  child: Text(
-                    'Người dùng có thể đăng tải công thức nấu ăn của riêng mình, giúp tạo ra một kho tàng ẩm thực phong phú. Hãy cùng nhau khám phá và học hỏi từ những món ăn mà mọi người chia sẻ!',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.mediumNormal,
-                  ),
-                ),
-              ],
+            SizedBox(
+              width: 768,
+              child: Text(
+                'Chia sẻ công thức nấu ăn độc đáo',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.h2,
+              ),
             ),
-            const SizedBox(height: 80),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: _communityCard(
-                    image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
-                    title: 'Hệ thống đánh giá và nhận xét',
-                    description:
-                        'Người dùng có thể đánh giá và nhận xét công thức để giúp cải thiện chất lượng.',
-                    icon: _buildIcon(Icons.star_rate),
-                  ),
-                ),
-                const SizedBox(width: 48),
-                Expanded(
-                  child: _communityCard(
-                    image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
-                    title: 'Thử thách nấu ăn hàng tuần',
-                    description:
-                        'Tham gia các thử thách nấu ăn thú vị để thể hiện tài năng của bạn.',
-                    icon: _buildIcon(Icons.emoji_events),
-                  ),
-                ),
-                const SizedBox(width: 48),
-                Expanded(
-                  child: _communityCard(
-                    image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
-                    title: 'Kết nối và giao lưu với các đầu bếp',
-                    description:
-                        'Tạo kết nối với các đầu bếp khác để học hỏi và chia sẻ kinh nghiệm.',
-                    icon: _buildIcon(Icons.people),
-                  ),
-                ),
-              ],
+            const SizedBox(height: 24),
+            SizedBox(
+              width: 768,
+              child: Text(
+                'Người dùng có thể đăng tải công thức nấu ăn của riêng mình, giúp tạo ra một kho tàng ẩm thực phong phú. Hãy cùng nhau khám phá và học hỏi từ những món ăn mà mọi người chia sẻ!',
+                textAlign: TextAlign.center,
+                style: AppTextStyles.mediumNormal,
+              ),
             ),
           ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 60,
+          children: [
+            Expanded(
+              child: _communityCard(
+                image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                title: 'Hệ thống đánh giá và nhận xét',
+                description:
+                    'Người dùng có thể đánh giá và nhận xét công thức để giúp cải thiện chất lượng.',
+                icon: _buildIcon(Icons.star_rate),
+              ),
+            ),
+            Expanded(
+              child: _communityCard(
+                image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                title: 'Thử thách nấu ăn hàng tuần',
+                description: 'Tham gia các thử thách nấu ăn thú vị để thể hiện tài năng của bạn.',
+                icon: _buildIcon(Icons.emoji_events),
+              ),
+            ),
+            Expanded(
+              child: _communityCard(
+                image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                title: 'Kết nối và giao lưu với các đầu bếp',
+                description: 'Tạo kết nối với các đầu bếp khác để học hỏi và chia sẻ kinh nghiệm.',
+                icon: _buildIcon(Icons.people),
+              ),
+            ),
+          ],
+        ),
+        Center(
+          child: SizedBox(
+            width: 400,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 24,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        width: 2,
+                        strokeAlign: BorderSide.strokeAlignOutside,
+                        color: Color(0xFF040709) /* Color-Neutral-Darkest */,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  child: const Text(
+                    'Xem',
+                    style: TextStyle(
+                      color: Color(0xFF040709) /* Color-Neutral-Darkest */,
+                      fontSize: 16,
+                      fontFamily: 'Lato',
+                      fontWeight: FontWeight.w500,
+                      height: 1.50,
+                    ),
+                  ),
+                ),
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 8,
+                    children: [
+                      Text(
+                        'Tham gia',
+                        style: TextStyle(
+                          color: Color(0xFF040709) /* Color-Neutral-Darkest */,
+                          fontSize: 16,
+                          fontFamily: 'Lato',
+                          fontWeight: FontWeight.w500,
+                          height: 1.50,
+                        ),
+                      ),
+                      Icon(Icons.arrow_forward_ios_outlined, size: 12, color: Colors.black),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     ),
@@ -670,385 +672,324 @@ Widget _buildIcon(IconData iconData) {
   );
 }
 
-Widget _lienHeChungtoi() {
+Widget _lienHeChungToi() {
   return Container(
+    padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2, vertical: AppSizes.xl * 2),
     clipBehavior: Clip.antiAlias,
-    decoration: const BoxDecoration(color: Color(0xFF665600) /* Color-Scheme-4-Background */),
+    decoration: const BoxDecoration(color: Color(0xFF665600)),
     child: Column(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 80,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1280),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
+        // Header section
+        Text('Liên hệ', style: AppTextStyles.regularSemiBold.copyWith(color: Colors.white)),
+        const SizedBox(height: 16),
+        Text('Liên hệ chúng tôi', style: AppTextStyles.h2.copyWith(color: Colors.white)),
+        const SizedBox(height: 24),
+        Text(
+          'Chúng tôi luôn sẵn sàng hỗ trợ bạn.',
+          style: AppTextStyles.mediumNormal.copyWith(color: Colors.white),
+        ),
+        const SizedBox(height: 80),
+        // Content section
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _contactCard(
+                      icon: Icons.email_outlined,
+                      title: 'Email',
+                      description: 'Hãy gửi email cho chúng tôi',
+                      contact: 'info@vietnamesechef.com',
+                    ),
+                    const SizedBox(height: 40),
+                    _contactCard(
+                      icon: Icons.phone_outlined,
+                      title: 'Điện thoại',
+                      description: 'Gọi cho chúng tôi ngay',
+                      contact: '+84 (123) 456-7890',
+                    ),
+                    const SizedBox(height: 40),
+                    _contactCard(
+                      icon: Icons.location_on_outlined,
+                      title: 'Văn phòng',
+                      description: '123 Đường Mẫu, Thành phố Hồ Chí Minh',
+                      contact: '',
+                      showDirectionsButton: true,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 80),
+            Expanded(
+              child: Container(
+                height: 516,
+                decoration: ShapeDecoration(
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                      "https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg",
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _contactCard({
+  required IconData icon,
+  required String title,
+  required String description,
+  required String contact,
+  bool showDirectionsButton = false,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, color: Colors.white, size: 16),
+      ),
+      const SizedBox(height: 16),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: AppTextStyles.largeNormal.copyWith(color: Colors.white)),
+          const SizedBox(height: 8),
+          Text(description, style: AppTextStyles.regularNormal.copyWith(color: Colors.white)),
+          if (contact.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(contact, style: AppTextStyles.regularNormal.copyWith(color: Colors.white)),
+          ],
+          if (showDirectionsButton) ...[
+            const SizedBox(height: 16),
+            Row(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 80,
               children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 768),
-                  child: const SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 16,
+                Text(
+                  'Lấy chỉ đường',
+                  style: AppTextStyles.regularMedium.copyWith(color: Colors.white),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward, color: Colors.white, size: 16),
+              ],
+            ),
+          ],
+        ],
+      ),
+    ],
+  );
+}
+
+Widget _footer() {
+  return Container(
+    decoration: const BoxDecoration(color: Color(0xFF665600)),
+    padding: const EdgeInsets.symmetric(vertical: 80),
+    child: Column(
+      children: [
+        // Newsletter subscription section
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2, vertical: 80),
+          decoration: ShapeDecoration(
+            color: const Color(0xFF665600),
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(width: 2, color: Colors.white),
+              borderRadius: BorderRadius.circular(40),
+            ),
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Logo placeholder
+                    Container(
+                      width: 84,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.restaurant, color: Colors.white, size: 20),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Đăng ký nhận bản tin để cập nhật các tính năng và phát hành mới.',
+                      style: AppTextStyles.regularNormal.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 24),
+                    // Email subscription
+                    Row(
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Liên hệ',
-                              style: TextStyle(
-                                color: Colors.white /* Color-Scheme-4-Text */,
-                                fontSize: 16,
-                                fontFamily: 'Lato',
-                                fontWeight: FontWeight.w600,
-                                height: 1.50,
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(width: 2, color: Colors.white),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                          ],
+                            child: Text(
+                              'Nhập email của bạn',
+                              style: AppTextStyles.regularNormal.copyWith(
+                                color: Colors.white.withOpacity(0.6),
+                              ),
+                            ),
+                          ),
                         ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 24,
-                            children: [
-                              SizedBox(
-                                width: 768,
-                                child: Text(
-                                  'Liên hệ chúng tôi',
-                                  style: TextStyle(
-                                    color: Colors.white /* Color-Scheme-4-Text */,
-                                    fontSize: 52,
-                                    fontFamily: 'Roboto Condensed',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.20,
-                                    letterSpacing: -0.52,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 768,
-                                child: Text(
-                                  'Chúng tôi luôn sẵn sàng hỗ trợ bạn.',
-                                  style: TextStyle(
-                                    color: Colors.white /* Color-Scheme-4-Text */,
-                                    fontSize: 18,
-                                    fontFamily: 'Lato',
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.50,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        const SizedBox(width: 16),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(width: 2, color: Colors.white),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: Text(
+                            'Đăng ký',
+                            style: AppTextStyles.regularMedium.copyWith(color: Colors.white),
                           ),
                         ),
                       ],
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Bằng cách đăng ký, bạn đồng ý với Chính sách Bảo mật của chúng tôi.',
+                      style: AppTextStyles.tinyNormal.copyWith(color: Colors.white),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 80,
-                    children: [
-                      Expanded(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 400),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 40,
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  spacing: 16,
-                                  children: [
-                                    Container(
-                                      width: 32,
-                                      height: 32,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(),
-                                      child: const Stack(),
-                                    ),
-                                    const SizedBox(
-                                      width: double.infinity,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        spacing: 8,
-                                        children: [
-                                          SizedBox(
-                                            width: 400,
-                                            child: Text(
-                                              'Email',
-                                              style: TextStyle(
-                                                color: Colors.white /* Color-Scheme-4-Text */,
-                                                fontSize: 22,
-                                                fontFamily: 'Roboto Condensed',
-                                                fontWeight: FontWeight.w500,
-                                                height: 1.40,
-                                                letterSpacing: -0.22,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 400,
-                                            child: Text(
-                                              'Hãy gửi email cho chúng tôi',
-                                              style: TextStyle(
-                                                color: Colors.white /* Color-Scheme-4-Text */,
-                                                fontSize: 16,
-                                                fontFamily: 'Lato',
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.50,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 400,
-                                            child: Text(
-                                              'info@vietnamesechef.com',
-                                              style: TextStyle(
-                                                color: Colors.white /* Color-Scheme-4-Text */,
-                                                fontSize: 16,
-                                                fontFamily: 'Lato',
-                                                fontWeight: FontWeight.w400,
-                                                textDecoration: TextDecoration.underline,
-                                                height: 1.50,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  spacing: 16,
-                                  children: [
-                                    Container(
-                                      width: 32,
-                                      height: 32,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(),
-                                      child: const Stack(),
-                                    ),
-                                    const SizedBox(
-                                      width: double.infinity,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        spacing: 8,
-                                        children: [
-                                          SizedBox(
-                                            width: 400,
-                                            child: Text(
-                                              'Điện thoại',
-                                              style: TextStyle(
-                                                color: Colors.white /* Color-Scheme-4-Text */,
-                                                fontSize: 22,
-                                                fontFamily: 'Roboto Condensed',
-                                                fontWeight: FontWeight.w500,
-                                                height: 1.40,
-                                                letterSpacing: -0.22,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 400,
-                                            child: Text(
-                                              'Gọi cho chúng tôi ngay',
-                                              style: TextStyle(
-                                                color: Colors.white /* Color-Scheme-4-Text */,
-                                                fontSize: 16,
-                                                fontFamily: 'Lato',
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.50,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 400,
-                                            child: Text(
-                                              '+84 (123) 456-7890',
-                                              style: TextStyle(
-                                                color: Colors.white /* Color-Scheme-4-Text */,
-                                                fontSize: 16,
-                                                fontFamily: 'Lato',
-                                                fontWeight: FontWeight.w400,
-                                                textDecoration: TextDecoration.underline,
-                                                height: 1.50,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  spacing: 16,
-                                  children: [
-                                    Container(
-                                      width: 32,
-                                      height: 32,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(),
-                                      child: const Stack(),
-                                    ),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        spacing: 16,
-                                        children: [
-                                          const SizedBox(
-                                            width: double.infinity,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              spacing: 8,
-                                              children: [
-                                                SizedBox(
-                                                  width: 400,
-                                                  child: Text(
-                                                    'Văn phòng',
-                                                    style: TextStyle(
-                                                      color: Colors.white /* Color-Scheme-4-Text */,
-                                                      fontSize: 22,
-                                                      fontFamily: 'Roboto Condensed',
-                                                      fontWeight: FontWeight.w500,
-                                                      height: 1.40,
-                                                      letterSpacing: -0.22,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 400,
-                                                  child: Text(
-                                                    '123 Đường Mẫu, Thành phố Hồ Chí Minh',
-                                                    style: TextStyle(
-                                                      color: Colors.white /* Color-Scheme-4-Text */,
-                                                      fontSize: 16,
-                                                      fontFamily: 'Lato',
-                                                      fontWeight: FontWeight.w400,
-                                                      height: 1.50,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            spacing: 16,
-                                            children: [
-                                              Container(
-                                                decoration: ShapeDecoration(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(100),
-                                                  ),
-                                                ),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  spacing: 8,
-                                                  children: [
-                                                    const Text(
-                                                      'Lấy chỉ đường',
-                                                      style: TextStyle(
-                                                        color: Colors.white /* Color-White */,
-                                                        fontSize: 16,
-                                                        fontFamily: 'Lato',
-                                                        fontWeight: FontWeight.w500,
-                                                        height: 1.50,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: 24,
-                                                      height: 24,
-                                                      clipBehavior: Clip.antiAlias,
-                                                      decoration: const BoxDecoration(),
-                                                      child: const Stack(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+              ),
+              const SizedBox(width: 128),
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: _footerColumn(
+                        title: 'Sản phẩm',
+                        links: ['Tìm công thức', 'Lập kế hoạch', 'Cộng đồng', 'Trợ lý AI', 'Blog'],
                       ),
-                      Expanded(
-                        child: Container(
-                          height: 516,
-                          decoration: ShapeDecoration(
-                            image: const DecorationImage(
-                              image: NetworkImage(
-                                "https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                          ),
-                        ),
+                    ),
+                    const SizedBox(width: 40),
+                    Expanded(
+                      child: _footerColumn(
+                        title: 'Hỗ trợ',
+                        links: ['Trung tâm trợ giúp', 'Liên hệ', 'FAQ', 'Báo cáo lỗi', 'Góp ý'],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 40),
+                    Expanded(child: _footerSocialColumn()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 32),
+        // Copyright section
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '© 2024 VietnameseChef. Tất cả các quyền được bảo lưu.',
+              style: AppTextStyles.regularNormal.copyWith(color: Colors.white),
+            ),
+            Row(
+              children: [
+                Text(
+                  'Chính sách Bảo mật',
+                  style: AppTextStyles.regularNormal.copyWith(color: Colors.white),
+                ),
+                const SizedBox(width: 24),
+                Text(
+                  'Điều khoản Dịch vụ',
+                  style: AppTextStyles.regularNormal.copyWith(color: Colors.white),
+                ),
+                const SizedBox(width: 24),
+                Text(
+                  'Cài đặt Cookies',
+                  style: AppTextStyles.regularNormal.copyWith(color: Colors.white),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ],
     ),
+  );
+}
+
+Widget _footerColumn({required String title, required List<String> links}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(title, style: AppTextStyles.regularSemiBold.copyWith(color: Colors.white)),
+      const SizedBox(height: 16),
+      ...links.map(
+        (link) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(link, style: AppTextStyles.regularNormal.copyWith(color: Colors.white)),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _footerSocialColumn() {
+  final socialMedias = [
+    {'name': 'Facebook', 'icon': Icons.facebook},
+    {'name': 'Instagram', 'icon': Icons.camera_alt},
+    {'name': 'X (Twitter)', 'icon': Icons.alternate_email},
+    {'name': 'LinkedIn', 'icon': Icons.business},
+    {'name': 'YouTube', 'icon': Icons.play_arrow},
+  ];
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        'Theo dõi chúng tôi',
+        style: AppTextStyles.regularSemiBold.copyWith(color: Colors.white),
+      ),
+      const SizedBox(height: 16),
+      ...socialMedias.map(
+        (social) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(social['icon'] as IconData, color: Colors.white, size: 16),
+              const SizedBox(width: 12),
+              Text(
+                social['name'] as String,
+                style: AppTextStyles.regularNormal.copyWith(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
   );
 }

@@ -42,9 +42,9 @@ class _HomePageState extends State<HomePage> {
         },
         onMealPlanTap: () {
           // TODO: Navigate to meal plan
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Kế hoạch bữa ăn đang được phát triển')));
+          setState(() {
+            currentIndex = 2; // Chuyển sang trang công thức
+          });
         },
         onCommunityTap: () {
           // TODO: Navigate to community
