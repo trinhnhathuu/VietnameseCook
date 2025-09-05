@@ -43,7 +43,7 @@ class SuggestionCard extends StatelessWidget {
           child: Column(
             children: [
               _buildContent(),
-              if (imageUrl != null) _buildImage(),
+              if (imageUrl != null) Expanded(child: _buildImage()),
             ],
           ),
         ),
@@ -53,7 +53,6 @@ class SuggestionCard extends StatelessWidget {
 
   Widget _buildContent() {
     return Container(
-      width: double.infinity,
       padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -91,14 +90,12 @@ class SuggestionCard extends StatelessWidget {
       spacing: 8,
       children: [
         SizedBox(
-          width: 272,
           child: Text(
             title,
             style: AppTextStyles.h5,
           ),
         ),
         SizedBox(
-          width: 272,
           child: Text(
             description,
             style: AppTextStyles.regularNormal,
@@ -142,15 +139,34 @@ class SuggestionCard extends StatelessWidget {
     );
   }
 
+
   Widget _buildImage() {
     return Container(
-      width: double.infinity,
       height: 171,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(imageUrl!),
-          fit: BoxFit.cover,
-        ),
+      child: Image.network(
+        imageUrl!,
+        fit: BoxFit.fill,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                  loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            color: Colors.grey[200],
+            child: Icon(
+              Icons.broken_image,
+              color: Colors.grey,
+              size: 50,
+            ),
+          );
+        },
       ),
     );
   }

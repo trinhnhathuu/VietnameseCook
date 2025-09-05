@@ -156,7 +156,7 @@ class IngredientSuggestionsSection extends StatelessWidget {
               height: 394,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage("https://placehold.co/320x394"),
+                  image: NetworkImage("https://images.pexels.com/photos/33771009/pexels-photo-33771009.jpeg"),
                   fit: BoxFit.cover,
                 ),
               ),
