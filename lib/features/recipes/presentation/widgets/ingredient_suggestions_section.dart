@@ -19,7 +19,7 @@ class IngredientSuggestionsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 48),
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
@@ -28,25 +28,13 @@ class IngredientSuggestionsSection extends StatelessWidget {
       child: Column(
         spacing: 80,
         children: [
-          _buildConstrainedContent(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildConstrainedContent() {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 1280),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 80,
-        children: [
           _buildSectionHeader(),
           _buildSuggestionsGrid(),
         ],
       ),
     );
   }
+
 
   Widget _buildSectionHeader() {
     return ConstrainedBox(

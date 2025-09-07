@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../widgets/common/community_section.dart';
 
 class HomeContentPage extends StatelessWidget {
   const HomeContentPage({super.key});
@@ -320,7 +321,39 @@ class HomeContentPage extends StatelessWidget {
               ),
             ),
             _lapKeHoach(),
-            _chiaSeCongThuc(),
+            CommunitySection(
+              title: 'Cộng đồng',
+              subtitle: 'Chia sẻ công thức nấu ăn độc đáo',
+              description: 'Người dùng có thể đăng tải công thức nấu ăn của riêng mình, giúp tạo ra một kho tàng ẩm thực phong phú. Hãy cùng nhau khám phá và học hỏi từ những món ăn mà mọi người chia sẻ!',
+              cards: [
+                CommunityCard(
+                  image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                  title: 'Hệ thống đánh giá và nhận xét',
+                  description: 'Người dùng có thể đánh giá và nhận xét công thức để giúp cải thiện chất lượng.',
+                  icon: Icons.star_rate,
+                ),
+                CommunityCard(
+                  image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                  title: 'Thử thách nấu ăn hàng tuần',
+                  description: 'Tham gia các thử thách nấu ăn thú vị để thể hiện tài năng của bạn.',
+                  icon: Icons.emoji_events,
+                ),
+                CommunityCard(
+                  image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                  title: 'Kết nối và giao lưu với các đầu bếp',
+                  description: 'Tạo kết nối với các đầu bếp khác để học hỏi và chia sẻ kinh nghiệm.',
+                  icon: Icons.people,
+                ),
+              ],
+              primaryButtonText: 'Xem',
+              secondaryButtonText: 'Tham gia',
+              onPrimaryButtonTap: () {
+                // TODO: Implement primary button action
+              },
+              onSecondaryButtonTap: () {
+                // TODO: Implement secondary button action
+              },
+            ),
             _lienHeChungToi(),
           ],
         ),
@@ -499,178 +532,7 @@ Widget _featureCard({
   );
 }
 
-Widget _chiaSeCongThuc() {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: AppSizes.xl * 2, vertical: AppSizes.xl * 2),
 
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 32,
-      children: [
-        Text('Cộng đồng', textAlign: TextAlign.center, style: AppTextStyles.regularSemiBold),
-        const SizedBox(height: 16),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 768,
-              child: Text(
-                'Chia sẻ công thức nấu ăn độc đáo',
-                textAlign: TextAlign.center,
-                style: AppTextStyles.h2,
-              ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              width: 768,
-              child: Text(
-                'Người dùng có thể đăng tải công thức nấu ăn của riêng mình, giúp tạo ra một kho tàng ẩm thực phong phú. Hãy cùng nhau khám phá và học hỏi từ những món ăn mà mọi người chia sẻ!',
-                textAlign: TextAlign.center,
-                style: AppTextStyles.mediumNormal,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 60,
-          children: [
-            Expanded(
-              child: _communityCard(
-                image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
-                title: 'Hệ thống đánh giá và nhận xét',
-                description:
-                    'Người dùng có thể đánh giá và nhận xét công thức để giúp cải thiện chất lượng.',
-                icon: _buildIcon(Icons.star_rate),
-              ),
-            ),
-            Expanded(
-              child: _communityCard(
-                image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
-                title: 'Thử thách nấu ăn hàng tuần',
-                description: 'Tham gia các thử thách nấu ăn thú vị để thể hiện tài năng của bạn.',
-                icon: _buildIcon(Icons.emoji_events),
-              ),
-            ),
-            Expanded(
-              child: _communityCard(
-                image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
-                title: 'Kết nối và giao lưu với các đầu bếp',
-                description: 'Tạo kết nối với các đầu bếp khác để học hỏi và chia sẻ kinh nghiệm.',
-                icon: _buildIcon(Icons.people),
-              ),
-            ),
-          ],
-        ),
-        Center(
-          child: SizedBox(
-            width: 400,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 24,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        width: 2,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                        color: Color(0xFF040709) /* Color-Neutral-Darkest */,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  child: const Text(
-                    'Xem',
-                    style: TextStyle(
-                      color: Color(0xFF040709) /* Color-Neutral-Darkest */,
-                      fontSize: 16,
-                      fontFamily: 'Lato',
-                      fontWeight: FontWeight.w500,
-                      height: 1.50,
-                    ),
-                  ),
-                ),
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 8,
-                    children: [
-                      Text(
-                        'Tham gia',
-                        style: TextStyle(
-                          color: Color(0xFF040709) /* Color-Neutral-Darkest */,
-                          fontSize: 16,
-                          fontFamily: 'Lato',
-                          fontWeight: FontWeight.w500,
-                          height: 1.50,
-                        ),
-                      ),
-                      Icon(Icons.arrow_forward_ios_outlined, size: 12, color: Colors.black),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _communityCard({
-  required String image,
-  required String title,
-  required String description,
-  required Widget icon,
-}) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Container(
-        width: double.infinity,
-        height: 234,
-        decoration: ShapeDecoration(
-          image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        ),
-      ),
-      const SizedBox(height: 32),
-      SizedBox(
-        width: 395,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(title, textAlign: TextAlign.center, style: AppTextStyles.h4),
-            const SizedBox(height: 24),
-            Text(description, textAlign: TextAlign.center, style: AppTextStyles.regularNormal),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _buildIcon(IconData iconData) {
-  return Container(
-    width: 48,
-    height: 48,
-    decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(12)),
-    child: Icon(iconData, color: Colors.white, size: 24),
-  );
-}
 
 Widget _lienHeChungToi() {
   return Container(

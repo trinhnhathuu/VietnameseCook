@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_sizes.dart';
+import '../../../../widgets/common/community_section.dart';
+import '../../../../widgets/common/ingredient_section.dart';
 import '../widgets/search_bar_widget.dart';
 import '../widgets/filter_chips_row.dart';
 import '../widgets/featured_intro.dart';
@@ -34,9 +36,73 @@ class _RecipesPageState extends State<RecipesPage> {
             const SizedBox(height: AppSizes.md),
             _buildFilterSection(),
             const SizedBox(height: AppSizes.md),
+            /// tiêu đề page
             _buildFeaturedSection(),
+            /// Coong thưc nấu ăn
             _buildSeasonRecipesSection(),
+            /// gợi ý công thức
             _buildIngredientSuggestionsSection(),
+
+            CommunitySection(
+              title: 'Hướng dẫn',
+              subtitle: 'Hướng dẫn từng bước nấu ăn',
+              description: 'Khám phá các công thức nấu ăn chi tiết với hướng dẫn từng bước. Chúng tôi giúp bạn dễ dàng thực hiện món ăn yêu thích.',
+              cards: [
+                CommunityCard(
+                  image: 'https://images.pexels.com/photos/3152763 7/pexels-photo-31527637.jpeg',
+                  title: 'Các bước thực hiện món ăn',
+                  description: 'Mỗi công thức đều có hướng dẫn rõ ràng ',
+                  icon: Icons.star_rate,
+                ),
+                CommunityCard(
+                  image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                  title: 'Hướng dẫn sử dụng các nguyên liệu',
+                  description: 'Chúng tôi cung cấp thông tin chi tiết về nguyên liệu.',
+                  icon: Icons.emoji_events,
+                ),
+                CommunityCard(
+                  image: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                  title: 'Mẹo và kỹ thuật nấu ăn',
+                  description: 'Nhận những mẹo hữu ích từ các đầu bếp chuyên nghiệp. ',
+                  icon: Icons.people,
+                ),
+              ],
+              primaryButtonText: 'Tìm hiểu',
+              secondaryButtonText: 'Bắt đầu',
+              onPrimaryButtonTap: () {
+                // TODO: Implement primary button action
+              },
+              onSecondaryButtonTap: () {
+                // TODO: Implement secondary button action
+              },
+            ),
+            /// danh sách nguyên liệu
+            IngredientSection(
+              title: 'Nguyên liệu',
+              subtitle: 'Danh sách nguyên liệu',
+              description: 'Các nguyên liệu cần thiết cho công thức',
+              cards: [
+                IngredientCard(
+                  title: 'Chi tiết nguyên liệu cho món ăn',
+                  description: 'Tìm hiểu các nguyên liệu cần thiết',
+                  buttonText: 'Xem',
+                  imageUrl: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+                  onButtonTap: () {
+                    // TODO: Implement view action
+                  },
+                ),
+                IngredientCard(
+                  title: 'Nguyên liệu chính cho công thức',
+                  description: 'Khám phá các thành phần đặc trưng',
+                  buttonText: 'Tìm',
+                  onButtonTap: () {
+                    // TODO: Implement search action
+                  },
+                ),
+              ],
+              imageUrl: 'https://images.pexels.com/photos/31527637/pexels-photo-31527637.jpeg',
+            ),
+
           ],
         ),
       ),
@@ -194,4 +260,7 @@ class _RecipesPageState extends State<RecipesPage> {
     // TODO: Navigate to suggestion detail page
     debugPrint('Suggestion tapped: $suggestionId');
   }
+
+
+  
 }
