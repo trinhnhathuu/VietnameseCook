@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/favorites/presentation/pages/favorites_page.dart';
+import '../../features/community/presentation/pages/community_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/recipes/presentation/pages/recipes_page.dart';
@@ -44,7 +44,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.favorites,
             name: 'favorites',
-            builder: (context, state) => const FavoritesPage(),
+            builder: (context, state) => const CommunityPage(),
           ),
 
           // Profile

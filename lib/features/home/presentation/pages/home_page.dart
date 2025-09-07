@@ -3,7 +3,7 @@ import 'package:vietnamesecooking/features/home/presentation/pages/content_home_
 
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../widgets/common/app_header.dart';
-import '../../../favorites/presentation/pages/favorites_page.dart';
+import '../../../community/presentation/pages/community_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../../../recipes/presentation/pages/recipes_page.dart';
 
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const HomeContentPage(),
     const RecipesPage(),
-    const FavoritesPage(),
+    const CommunityPage(),
     const ProfilePage(),
   ];
 
