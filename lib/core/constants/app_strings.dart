@@ -19,7 +19,7 @@ class AppStrings {
   static const String sort = 'Sắp xếp';
   
   // Header Navigation
-  static const String logo = 'Logo';
+  static const String logo = 'Home';
   static const String recipesNav = 'Công thức nấu';
   static const String mealPlan = 'Kế hoạch bữa';
   static const String community = 'Cộng đồng';

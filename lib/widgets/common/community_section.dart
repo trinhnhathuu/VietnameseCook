@@ -218,3 +218,4 @@ class _CommunityCard extends StatelessWidget {
     );
   }
 }
+

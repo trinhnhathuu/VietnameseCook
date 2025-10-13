@@ -1,5 +1,18 @@
 # Cấu trúc mới - Đơn giản và có thể mở rộng
 
+## Demo: Categories page (Riverpod + Dio)
+
+Add route to open `CategoriesPage` and ensure backend running at `http://127.0.0.1:8000`.
+
+Usage example:
+
+```dart
+// Somewhere in your router or a button:
+Navigator.of(context).push(
+  MaterialPageRoute(builder: (_) => const CategoriesPage()),
+);
+```
+
 ## 📁 **Cấu trúc thư mục mới:**
 
 ```

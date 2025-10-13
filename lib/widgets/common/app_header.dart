@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_strings.dart';
 
@@ -68,23 +69,23 @@ class _AppHeaderState extends State<AppHeader> {
                 children: [
                   _buildNavItem(AppStrings.recipesNav, widget.onRecipesTap),
                   const SizedBox(width: 32),
-                  _buildNavItem(AppStrings.mealPlan, widget.onMealPlanTap),
+                  _buildNavItem(AppStrings.community, widget.onMealPlanTap),
                   const SizedBox(width: 32),
-                  _buildNavItem(AppStrings.community, widget.onCommunityTap),
-                  const SizedBox(width: 32),
-                  _buildSupportDropdown(),
+                  _buildNavItem('test', widget.onCommunityTap),
+                  // const SizedBox(width: 32),
+                  // _buildSupportDropdown(),
                 ],
               ),
             ),
 
             // Action Buttons
-            Row(
-              children: [
-                _buildOutlineButton(AppStrings.view, widget.onViewTap),
-                const SizedBox(width: 12),
-                _buildFilledButton(AppStrings.register, widget.onRegisterTap),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     _buildOutlineButton(AppStrings.view, widget.onViewTap),
+            //     const SizedBox(width: 12),
+            //     _buildFilledButton(AppStrings.register, widget.onRegisterTap),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -153,11 +154,9 @@ class _AppHeaderState extends State<AppHeader> {
 
   void _createOverlay() {
     _removeOverlay();
-    
-    _overlayEntry = OverlayEntry(
-      builder: (context) => _buildFullWidthDropdown(),
-    );
-    
+
+    _overlayEntry = OverlayEntry(builder: (context) => _buildFullWidthDropdown());
+
     Overlay.of(context).insert(_overlayEntry!);
     setState(() {
       _isDropdownOpen = true;
@@ -182,11 +181,7 @@ class _AppHeaderState extends State<AppHeader> {
         child: Stack(
           children: [
             // Backdrop
-            Positioned.fill(
-              child: Container(
-                color: Colors.black.withOpacity(0.1),
-              ),
-            ),
+            Positioned.fill(child: Container(color: Colors.black.withOpacity(0.1))),
             // Dropdown content
             CompositedTransformFollower(
               link: _layerLink,
@@ -210,43 +205,61 @@ class _AppHeaderState extends State<AppHeader> {
                   children: [
                     // Column 1: Khám phá món ăn
                     Expanded(
-                      child: _buildDropdownColumn(
-                        AppStrings.exploreFood,
-                        [
-                          _buildDropdownColumnItem(AppStrings.exploreFood, AppStrings.cookingFeatures, hasButton: true),
-                          _buildDropdownColumnItem(AppStrings.cookingSkills, AppStrings.learnFromExperts),
-                          _buildDropdownColumnItem(AppStrings.cookingTips, AppStrings.usefulTipsForKitchen),
-                          _buildDropdownColumnItem(AppStrings.newRecipes, AppStrings.uniqueRecipes),
-                        ],
-                      ),
+                      child: _buildDropdownColumn(AppStrings.exploreFood, [
+                        _buildDropdownColumnItem(
+                          AppStrings.exploreFood,
+                          AppStrings.cookingFeatures,
+                          hasButton: true,
+                        ),
+                        _buildDropdownColumnItem(
+                          AppStrings.cookingSkills,
+                          AppStrings.learnFromExperts,
+                        ),
+                        _buildDropdownColumnItem(
+                          AppStrings.cookingTips,
+                          AppStrings.usefulTipsForKitchen,
+                        ),
+                        _buildDropdownColumnItem(AppStrings.newRecipes, AppStrings.uniqueRecipes),
+                      ]),
                     ),
-                    
+
                     const SizedBox(width: 40),
-                    
+
                     // Column 2: Tin tức từ Blog
                     Expanded(
-                      child: _buildDropdownColumn(
-                        AppStrings.blogNews,
-                        [
-                          _buildDropdownColumnItem(AppStrings.exploreFood, AppStrings.discoverRecipes),
-                          _buildDropdownColumnItem(AppStrings.cookingTechniques, AppStrings.easyForEveryone),
-                          _buildDropdownColumnItem(AppStrings.cookingTipsMenu, AppStrings.tipsForFamily),
-                          _buildDropdownColumnItem(AppStrings.newsMenu, AppStrings.latestNews),
-                        ],
-                      ),
+                      child: _buildDropdownColumn(AppStrings.blogNews, [
+                        _buildDropdownColumnItem(
+                          AppStrings.exploreFood,
+                          AppStrings.discoverRecipes,
+                        ),
+                        _buildDropdownColumnItem(
+                          AppStrings.cookingTechniques,
+                          AppStrings.easyForEveryone,
+                        ),
+                        _buildDropdownColumnItem(
+                          AppStrings.cookingTipsMenu,
+                          AppStrings.tipsForFamily,
+                        ),
+                        _buildDropdownColumnItem(AppStrings.newsMenu, AppStrings.latestNews),
+                      ]),
                     ),
-                    
+
                     const SizedBox(width: 40),
-                    
+
                     // Column 3: Bài viết nổi bật
                     Expanded(
-                      child: _buildDropdownColumn(
-                        AppStrings.featuredPosts,
-                        [
-                          _buildDropdownColumnItem(AppStrings.deliciousRecipes, AppStrings.easyRecipes, hasImage: true),
-                          _buildDropdownColumnItem(AppStrings.newDishes, AppStrings.discoverNewDishes, hasImage: true),
-                        ],
-                      ),
+                      child: _buildDropdownColumn(AppStrings.featuredPosts, [
+                        _buildDropdownColumnItem(
+                          AppStrings.deliciousRecipes,
+                          AppStrings.easyRecipes,
+                          hasImage: true,
+                        ),
+                        _buildDropdownColumnItem(
+                          AppStrings.newDishes,
+                          AppStrings.discoverNewDishes,
+                          hasImage: true,
+                        ),
+                      ]),
                     ),
                   ],
                 ),
@@ -276,7 +289,12 @@ class _AppHeaderState extends State<AppHeader> {
     );
   }
 
-  Widget _buildDropdownColumnItem(String title, String subtitle, {bool hasButton = false, bool hasImage = false}) {
+  Widget _buildDropdownColumnItem(
+    String title,
+    String subtitle, {
+    bool hasButton = false,
+    bool hasImage = false,
+  }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
@@ -298,23 +316,20 @@ class _AppHeaderState extends State<AppHeader> {
                   color: hasImage ? AppColors.background : AppColors.background,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: hasImage 
-                  ? Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.image,
-                        color: Colors.grey,
-                        size: 24,
-                      ),
-                    )
-                  : const Icon(
-                      Icons.restaurant_menu,
-                      color: AppColors.navTextColor,
-                      size: 24,
-                    ),
+                child:
+                    hasImage
+                        ? Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(Icons.image, color: Colors.grey, size: 24),
+                        )
+                        : const Icon(
+                          Icons.restaurant_menu,
+                          color: AppColors.navTextColor,
+                          size: 24,
+                        ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -342,22 +357,13 @@ class _AppHeaderState extends State<AppHeader> {
                             ),
                             child: const Text(
                               AppStrings.readMore,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColors.navTextColor,
-                              ),
+                              style: TextStyle(fontSize: 12, color: AppColors.navTextColor),
                             ),
                           ),
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    Text(subtitle, style: const TextStyle(fontSize: 14, color: Colors.grey)),
                   ],
                 ),
               ),
@@ -400,11 +406,7 @@ class _AppHeaderState extends State<AppHeader> {
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
         ),
       ),
     );

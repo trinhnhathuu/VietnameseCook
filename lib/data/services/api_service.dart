@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+
 import '../models/api_response.dart';
 
 /// Simple API service for HTTP requests
 class ApiService {
   final Dio _dio;
-  static const String baseUrl = 'https://api.example.com';
+  static const String baseUrl = 'http://127.0.0.1:8000/api';
 
   ApiService() : _dio = Dio() {
     _setupInterceptors();
@@ -36,10 +37,7 @@ class ApiService {
     T Function(dynamic json)? fromJson,
   }) async {
     try {
-      final response = await _dio.get(
-        endpoint,
-        queryParameters: queryParameters,
-      );
+      final response = await _dio.get(endpoint, queryParameters: queryParameters);
       return ApiResponse.fromJson(response.data, fromJson);
     } on DioException catch (e) {
       return _handleError(e);
@@ -76,7 +74,7 @@ class ApiService {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode ?? 500;
         String message = 'Lỗi server';
-        
+
         if (statusCode == 401) {
           message = 'Không có quyền truy cập';
         } else if (statusCode == 404) {
